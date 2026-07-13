@@ -1,0 +1,45 @@
+/* Reset default browser spacing */
+body {
+  margin: 0;              /* removes default margin */
+  font-family: Arial;     /* sets basic font */
+  background: #121213;    /* dark background like Wordle */
+  color: white;           /* text color */
+}
+
+/* Center the whole app */
+div {
+  text-align: center;     /* center text horizontally */
+}
+
+/* Title */
+h1 {
+  margin-top: 20px;       /* space from top */
+}
+
+/* Input box */
+input {
+  padding: 10px;          /* space inside input */
+  font-size: 18px;        /* bigger text */
+  text-transform: uppercase; /* forces uppercase letters */
+  margin-top: 10px;       /* space above */
+}
+
+/* Guess button */
+button {
+  padding: 10px 15px;     /* size of button */
+  margin-left: 10px;      /* space from input */
+  cursor: pointer;        /* pointer cursor on hover */
+  background: #538d4e;    /* green color */
+  color: white;           /* text color */
+  border: none;           /* removes border */
+}
+
+/* Guess list */
+div > div {
+  margin-top: 5px;        /* space between guesses */
+}
+
+/* Leaderboard section */
+h2 {
+  margin-top: 20px;       /* space above leaderboard */
+}
