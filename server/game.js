@@ -6,7 +6,7 @@ let leaderboard = [];
 let timer = 0;
 
 function resetWord() {
-    currentWord = generate({ exactly: 1, minLength: 5, maxLength: 5 })[0];
+    currentWord = nodejsWordBank.generate({ exactly: 1, minLength: 5, maxLength: 5 })[0];
 }
 
 function newRound(io){
@@ -19,7 +19,7 @@ function newRound(io){
         timer--;
         io.emit("gameState",{leaderboard, timer})
 
-        if(timer <= 30){
+        if(timer <= 0){
             clearInterval(interval);
             newRound(io)
         }
@@ -35,3 +35,4 @@ function checkGuess(guess, player, io){
         setTimeout(() => newRound(io), 30000)
     }
 }
+module.exports = { newRound, checkGuess };
