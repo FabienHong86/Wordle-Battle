@@ -9,19 +9,24 @@ function Game() {
   const [timer, setTimer] = useState(30);
 
   useEffect(() => {
-    //listen for gameState
-    socket.on("gameState", (state) => {
-      setLeaderboard(state.leaderboard);
-      setTimer(state.timer);
-    });
-    //listen for newRound
-    socket.on("newRound", () => {
-      setGuesses([]);
-      setCurrentGuess("");
-    });
+  const handleGameState = (state) => {
+    setLeaderboard(state.leaderboard);
+    setTimer(state.timer);
+  };
 
-    return () => socket.off();
-  }, []);
+  const handleNewRound = () => {
+    setGuesses([]);
+    setCurrentGuess("");
+  };
+
+  socket.on("gameState", handleGameState);
+  socket.on("newRound", handleNewRound);
+
+  return () => {
+    socket.off("gameState", handleGameState);
+    socket.off("newRound", handleNewRound);
+  };
+}, []);
 
   const submitGuess = () => {
     socket.emit("guess", currentGuess);
