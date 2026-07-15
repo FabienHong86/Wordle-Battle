@@ -1,7 +1,8 @@
 {
   "name": "client",
   "dependencies": {
-    "react": "^18.0.0",
+    "react": "^19.2.7",
+    "react-dom": "^19.2.7",
     "react-scripts": "^5.0.1",
     "socket.io-client": "^4.0.0"
   },
@@ -10,22 +11,21 @@
     "build": "react-scripts build"
   },
   "browserslist": {
-  "production": [
-    ">0.2%",
-    "not dead",
-    "not op_mini all"
-  ],
-  "development": [
-    "last 1 chrome version",
-    "last 1 firefox version",
-    "last 1 safari version"
-  ]
-},
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "keywords": [],
   "author": "",
-  "license": "ISC",
-  "type": "commonjs"
+  "license": "ISC"
 }
