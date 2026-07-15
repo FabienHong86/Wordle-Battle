@@ -6,7 +6,7 @@ function Game() {
   const [guesses, setGuesses] = useState([]);
   const [currentGuess, setCurrentGuess] = useState("");
   const [leaderboard, setLeaderboard] = useState([]);
-  const [timer, setTimer] = useState(0);
+  const [timer, setTimer] = useState(30);
 
   useEffect(() => {
     //listen for gameState

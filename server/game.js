@@ -14,9 +14,10 @@ function newRound(io){
     timer = 30;
 
     io.emit("newRound");
-
+    io.emit("gameState", { leaderboard, timer });    
     const interval = setInterval(() => { //Every 1000 miliseconds do everything in brackets
         timer--;
+        console.log(timer)
         io.emit("gameState",{leaderboard, timer})
 
         if(timer <= 0){
