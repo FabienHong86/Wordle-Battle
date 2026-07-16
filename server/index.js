@@ -6,7 +6,12 @@ const { newRound, checkGuess } = require("./game");
 //Server creation
 const app = express();
 const server = http.createServer(app);
-const io = new Server(server);
+const io = new Server(server, {
+  cors: {
+    origin: "*", // or "http://localhost:3000"
+    methods: ["GET", "POST"]
+  }
+});
 //Player interaction
 io.on("connection", (socket) => {
   const player = { id: socket.id, score: 0 };

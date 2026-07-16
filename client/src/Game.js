@@ -10,6 +10,7 @@ function Game() {
 
   useEffect(() => {
   const handleGameState = (state) => {
+    console.log("RECEIVED:", state.timer);
     setLeaderboard(state.leaderboard);
     setTimer(state.timer);
   };
