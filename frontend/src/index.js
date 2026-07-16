@@ -1,5 +1,5 @@
 // ===============================
-// REACT ENTRY POINT
+// REACT ENTRY POINT - React is a JS library you use to create UIs
 // ===============================
 import React from "react";
 import ReactDOM from "react-dom/client";

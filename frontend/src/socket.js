@@ -1,3 +1,6 @@
+// ===============================
+// SOCKET CONNECTION SETUP
+// ===============================
 import { io } from "socket.io-client";
 
 // Connect to backend server
