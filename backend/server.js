@@ -35,6 +35,11 @@ let timer = 30;
 // Interval reference (so we can stop it)
 let interval = null;
 
+// Store valid words once
+const validWords = new Set(
+  randomWords({ exactly: 1000, minLength: 5, maxLength: 5 })
+);
+
 // ===============================
 // HELPER FUNCTIONS
 // ===============================
@@ -80,6 +85,15 @@ function startNewRound() {
 
 // Check if a guess is correct
 function checkGuess(guess, player) {
+  // Normalize Guess
+  guess = guess.toUpperCase();
+
+  // Reject invalid guesses
+  if(!validWords.has(guess)){
+    console.log("Invalid word:", guess);
+    return;
+  }
+
   if (guess === currentWord) {
     console.log("Correct guess!");
 
