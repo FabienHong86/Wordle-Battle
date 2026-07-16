@@ -41,7 +41,7 @@ let interval = null;
 
 // Generate a random 5-letter word
 function generateWord() {
-  return randomWords({ exactly: 1, minLength: 5, maxLength: 5 })[0];
+  return randomWords.generate({ exactly: 1, minLength: 5, maxLength: 5 })[0];
 }
 
 // Start a new round
