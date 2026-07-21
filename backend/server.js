@@ -12,7 +12,8 @@ const randomWords = require("random-words");
 const app = express();
 const server = http.createServer(app);
 
-// Enable CORS so frontend can connect
+// Enable CORS (Cross-Origin Resource Sharing) so frontend can connect
+// Used to give access to resources
 const io = new Server(server, {
   cors: {
     origin: "*", // allow all (simple for dev)
@@ -54,7 +55,8 @@ function startNewRound() {
   console.log("Starting new round...");
 
   // Reset game state
-  currentWord = generateWord();
+  currentWord = generateWord(); 
+  console.log("Current word:", currentWord); // TEMP DEBUG LINE
   timer = 30;
 
   // Tell all clients a new round started
@@ -83,16 +85,51 @@ function startNewRound() {
   }, 1000);
 }
 
+// Assigns colors to each letter in guess as per Wordle rules
+function evaluateGuess(guess, solution) {
+  const result = Array(5).fill(null);
+  const solutionArr = solution.split("");
+
+  // Greens check
+  for(let i = 0; i < 5; i++){
+    if(guess[i] === solutionArr[i]){
+      result[i] = "green";
+      solutionArr[i] = null;
+    }
+  }
+
+  // Yellow and gray check
+  for(let i = 0; i<5; i++){
+    if(result[i]) continue;// Ignore greens
+    const index = solutionArr.indexOf(guess[i]);
+    if(index !== -1){// Letter in solution
+      result[i] = "yellow";
+      solutionArr[i] = null;
+    } else {// Letter not in solution
+      result[i] = "gray";
+    }
+  }
+
+  return result;
+}
+
+
 // Check if a guess is correct
-function checkGuess(guess, player) {
+function checkGuess(guess, player, socket) {
   // Normalize Guess
-  guess = guess.toUpperCase();
+  guess = guess.toLowerCase();
 
   // Reject invalid guesses
   if(!validWords.has(guess)){
-    console.log("Invalid word:", guess);
+    console.log("Invalid word:", guess); // TEMP DEBUG LINE
     return;
   }
+
+  // Evaluate Guess
+  const colors = evaluateGuess(guess, currentWord);
+  
+  // Send results to player
+  socket.emit("guessResult", { word: guess, colors: colors });
 
   if (guess === currentWord) {
     console.log("Correct guess!");
@@ -101,8 +138,12 @@ function checkGuess(guess, player) {
     player.score += 100;
 
     // Add to leaderboard
-    leaderboard.push(player);
-
+    const existingPlayer = leaderboard.find(p => p.id === player.id);
+    if (existingPlayer) {
+      existingPlayer.score = player.score;
+    } else {
+      leaderboard.push(player);
+    }
     // Send updated leaderboard
     io.emit("gameState", { leaderboard, timer });
 
@@ -125,7 +166,7 @@ io.on("connection", (socket) => {
 
   // When player sends a guess
   socket.on("guess", (guess) => {
-    checkGuess(guess, player);
+    checkGuess(guess, player, socket);
   });
 
   socket.on("disconnect", () => {

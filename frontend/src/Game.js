@@ -29,13 +29,19 @@ function Game() {
       setCurrentGuess("");
     };
 
+    const handleGuessResult = (data) => {
+      setGuesses((prev) => [...prev, data]);
+    }
+
     socket.on("gameState", handleGameState);
     socket.on("newRound", handleNewRound);
+    socket.on("guessResult", handleGuessResult);
 
     // Cleanup (important!)
     return () => {
       socket.off("gameState", handleGameState);
       socket.off("newRound", handleNewRound);
+      socket.off("guessResult", handleGuessResult)
     };
   }, []);
 
@@ -46,9 +52,6 @@ function Game() {
     if (currentGuess.length !== 5) return;
 
     socket.emit("guess", currentGuess);
-
-    // Add guess locally for display
-    setGuesses((prev) => [...prev, currentGuess]);
 
     setCurrentGuess("");
   };
@@ -72,7 +75,9 @@ function Game() {
 
       <h3>Your guesses:</h3>
       {guesses.map((g, i) => (
-        <div key={i}>{g}</div>
+        <div key={i}>
+          {g.word} - {g.colors.join(", ")}
+        </div>
       ))}
 
       <h2>Leaderboard</h2>
