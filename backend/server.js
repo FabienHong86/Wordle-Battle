@@ -38,7 +38,7 @@ let interval = null;
 
 // Store valid words once
 const validWords = new Set(
-  randomWords({ exactly: 1000, minLength: 5, maxLength: 5 })
+  randomWords.generate({ exactly: 1000, minLength: 5, maxLength: 5 })
 );
 
 // ===============================
