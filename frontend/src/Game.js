@@ -57,6 +57,17 @@ function Game() {
   };
 
   // ===============================
+  // HELPER FUNCTIONS
+  // ===============================
+
+  // Format the colors correctly
+  function getColor(color) {
+    if (color === "green") return "rgb(83, 141, 78)";
+    if (color === "yellow") return "rgb(181, 159, 59)";
+    return "rgb(58, 58, 60)";
+  }
+
+  // ===============================
   // UI
   // ===============================
   return (
@@ -74,11 +85,32 @@ function Game() {
       <button onClick={submitGuess}>Guess</button>
 
       <h3>Your guesses:</h3>
-      {guesses.map((g, i) => (
-        <div key={i}>
-          {g.word} - {g.colors.join(", ")}
-        </div>
-      ))}
+      <div>
+        {guesses.map((g, i) => ( 
+          <div key={i} style={{ display: "flex", marginBottom: "5px" }}>
+            {g.word.split("").map((letter, idx) => ( 
+              <div
+                key={idx}
+                style={{
+                  width: "60px",
+                  height: "60px",
+                  border: "2px getColor(g.colors[idx])",
+                  margin: "2px",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  backgroundColor: getColor(g.colors[idx]),
+                  color: "white",
+                  fontWeight: "bold",
+                  fontSize: "30px",
+                }}
+              >
+                {letter.toUpperCase()}
+              </div>
+            ))}
+          </div>
+        ))}
+      </div>
 
       <h2>Leaderboard</h2>
       {leaderboard.map((p, i) => (

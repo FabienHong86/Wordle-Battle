@@ -1,7 +1,7 @@
 /* Reset default browser spacing */
 body {
   margin: 0;              /* removes default margin */
-  font-family: Arial;     /* sets basic font */
+  font-family: "Helvetica Neue", "Neue Helvetica 75", Helvetica, Arial, sans-serif;     /* sets basic font */
   background: #121213;    /* dark background like Wordle */
   color: white;           /* text color */
 }
