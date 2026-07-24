@@ -4,7 +4,7 @@
 const express = require("express");
 const http = require("http");
 const { Server } = require("socket.io");
-const randomWords = require("random-words");
+const fs = require("fs");
 
 // ===============================
 // SETUP SERVER
@@ -19,6 +19,12 @@ const io = new Server(server, {
     origin: "*", // allow all (simple for dev)
   },
 });
+
+//Word list
+const wordList = fs
+  .readFileSync("./wordle-dictionary-full.txt", "utf-8")
+  .split("\n")
+  .map((word) => word.trim().toLowerCase());
 
 // ===============================
 // GAME STATE (global variables)
@@ -36,18 +42,13 @@ let timer = 30;
 // Interval reference (so we can stop it)
 let interval = null;
 
-// Store valid words once
-const validWords = new Set(
-  randomWords.generate({ exactly: 1000, minLength: 5, maxLength: 5 })
-);
-
 // ===============================
 // HELPER FUNCTIONS
 // ===============================
 
 // Generate a random 5-letter word
 function generateWord() {
-  return randomWords.generate({ exactly: 1, minLength: 5, maxLength: 5 })[0];
+  return wordList[Math.floor(Math.random() * wordList.length)];
 }
 
 // Start a new round
@@ -119,9 +120,9 @@ function checkGuess(guess, player, socket) {
   // Normalize Guess
   guess = guess.toLowerCase();
 
-  // Reject invalid guesses
-  if(!validWords.has(guess)){
-    console.log("Invalid word:", guess); // TEMP DEBUG LINE
+  // Reject invalid guesses and send update to frontend
+  if(!wordList.includes(guess)){
+    socket.emit("invalidWord");
     return;
   }
 

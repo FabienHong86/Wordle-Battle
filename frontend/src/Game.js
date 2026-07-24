@@ -54,10 +54,15 @@ function Game() {
       }
     };
 
+    const handleInvalidWord = () => {
+      alert("Not a valid word");
+    };
+
     socket.on("gameState", handleGameState);
     socket.on("newRound", handleNewRound);
     socket.on("guessResult", handleGuessResult);
     window.addEventListener("keydown", handleKeyDown);
+    socket.on("invalidWord", handleInvalidWord);
 
     // Cleanup (important!)
     return () => {
@@ -65,6 +70,7 @@ function Game() {
       socket.off("newRound", handleNewRound);
       socket.off("guessResult", handleGuessResult);
       window.removeEventListener("keydown", handleKeyDown);
+      socket.off("invalidWord", handleInvalidWord);
     };
   }, [currentGuess]);
 
