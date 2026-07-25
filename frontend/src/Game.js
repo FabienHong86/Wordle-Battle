@@ -141,20 +141,22 @@ function Game() {
                   <div
                     key={colIndex}
                     style={{
-                      width: "60px",
-                      height: "60px",
+                      width: "62px",
+                      height: "62px",
+                      boxSizing: "border-box", // Prevents borders from inflating the overall size
                       border: `2px solid ${getBorderColor(color)}`,
-                      margin: "0px 2px",
+                      margin: ".5px 2.5px", // Standard Wordle gap spacing
                       display: "flex",
                       alignItems: "center",
                       justifyContent: "center",
                       backgroundColor: getColor(color),
                       color: "white",
                       fontWeight: "bold",
-                      fontSize: "30px",
+                      fontSize: "2rem",
+                      textTransform: "uppercase"
                     }}
                   >
-                    {letter.toUpperCase()}
+                    {letter}
                   </div>
                 );
               })}
