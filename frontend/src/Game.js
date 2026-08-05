@@ -31,6 +31,7 @@ function Game() {
 
     const handleGuessResult = (data) => {
       setGuesses((prev) => [...prev, data]);
+      setCurrentGuess("");
     }
 
     const handleKeyDown = (e) => {
@@ -82,80 +83,45 @@ function Game() {
   if (guesses.length >= 6) return;
 
     socket.emit("guess", currentGuess);
-    setCurrentGuess("");
+    
   };
-
-  // ===============================
-  // HELPER FUNCTIONS
-  // ===============================
-
-  // Format the colors correctly
-  function getColor(color) {
-    if (color === "green") return "rgb(83, 141, 78)";
-    if (color === "yellow") return "rgb(181, 159, 59)";
-    if (color == "gray") return "rgb(58, 58, 60)"
-    return "#121213";
-  }
-
-  // Border color should be gray when there is no letter
-  function getBorderColor(color) {
-    if (!color) return "rgb(58, 58, 60)";
-    if (color === "green") return "rgb(83, 141, 78)";
-    if (color === "yellow") return "rgb(181, 159, 59)";
-    return "rgb(58, 58, 60)"
-  }
 
   // ===============================
   // UI
   // ===============================
-  const maxRows = 6;
   return (
     <div>
       <h1>Wordle Battle</h1>
 
       <p>Time left: {timer}</p>
 
-      <div style={{ display: "flex", flexDirection: "column", alignItems: "center"}}>
-        {Array.from({ length: maxRows }).map((_, rowIndex) => {
+      <div className = "column">
+        {Array.from({ length: 6 }).map((_, rowIndex) => {
           const guess = guesses[rowIndex];
-
+          
           return (
-            <div key={rowIndex} style={{ display: "flex" }}>
+            <div key={rowIndex} className = "row">
               {Array.from({ length: 5 }).map((_, colIndex) => {
                 let letter = "";
                 let color = "";
+                let anim = "";
 
                 // Past guesses
                 if (guess) {
                   letter = guess.word[colIndex];
                   color = guess.colors[colIndex];
+                  anim = "flip";
                 }
 
                 // Current typing row
                 else if (rowIndex === guesses.length) {
                   letter = currentGuess[colIndex] || "";
+                  if(letter) anim = "pop";
                 }
 
                 // Individual boxes
                 return (
-                  <div
-                    key={colIndex}
-                    style={{
-                      width: "62px",
-                      height: "62px",
-                      boxSizing: "border-box", // Prevents borders from inflating the overall size
-                      border: `2px solid ${getBorderColor(color)}`,
-                      margin: ".5px 2.5px", // Standard Wordle gap spacing
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      backgroundColor: getColor(color),
-                      color: "white",
-                      fontWeight: "bold",
-                      fontSize: "2rem",
-                      textTransform: "uppercase"
-                    }}
-                  >
+                  <div key = {`${rowIndex}-${colIndex}`} className = {`tile ${color} ${anim}`}>
                     {letter}
                   </div>
                 );

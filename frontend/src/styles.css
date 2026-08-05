@@ -1,45 +1,147 @@
 /* Reset default browser spacing */
 body {
-  margin: 0;              /* removes default margin */
-  font-family: "Helvetica Neue", "Neue Helvetica 75", Helvetica, Arial, sans-serif;     /* sets basic font */
-  background: #121213;    /* dark background like Wordle */
-  color: white;           /* text color */
+  margin: 0;
+  font-family: "Helvetica Neue", "Neue Helvetica 75", Helvetica, Arial, sans-serif;
+  background: #121213;
+  color: white;
 }
 
 /* Center the whole app */
 div {
-  text-align: center;     /* center text horizontally */
+  text-align: center;
 }
 
 /* Title */
 h1 {
-  margin-top: 20px;       /* space from top */
+  margin-top: 20px;
 }
 
 /* Input box */
 input {
-  padding: 10px;          /* space inside input */
-  font-size: 18px;        /* bigger text */
-  text-transform: uppercase; /* forces uppercase letters */
-  margin-top: 10px;       /* space above */
+  padding: 10px;
+  font-size: 18px;
+  text-transform: uppercase;
+  margin-top: 10px;
 }
 
 /* Guess button */
 button {
-  padding: 10px 15px;     /* size of button */
-  margin-left: 10px;      /* space from input */
-  cursor: pointer;        /* pointer cursor on hover */
-  background: #538d4e;    /* green color */
-  color: white;           /* text color */
-  border: none;           /* removes border */
+  padding: 10px 15px;
+  margin-left: 10px;
+  cursor: pointer;
+  background: #6aaa64;
+  color: white;
+  border: none;
 }
 
 /* Guess list */
 div > div {
-  margin-top: 5px;        /* space between guesses */
+  margin-top: 5px;
 }
 
 /* Leaderboard section */
 h2 {
-  margin-top: 20px;       /* space above leaderboard */
+  margin-top: 20px;
 }
+
+/* Column in guess list  */
+.column {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Row in each column of guess list */
+.row {
+  display: flex;
+}
+
+/* Base tile style */
+.tile {
+  width: 62px;
+  height: 62px;
+  box-sizing: border-box;
+  
+  border: 2px solid #3a3a3c;
+  background-color: #121213;
+  
+  margin: 0.5px 2.5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+  color: white;
+  font-weight: bold;
+  font-size: 2rem;
+  text-transform: uppercase;
+}
+
+/* Tile color override */
+.tile.green {
+  --target-bg: #538d4e;
+  color: white;
+  --target-border: transparent;
+}
+
+.tile.yellow {
+  --target-bg: #b59f3b;
+  color: white;
+  --target-border: transparent;
+}
+
+.tile.gray {
+  --target-bg: #3a3a3c;
+  color: white;
+  --target-border: transparent;
+}
+
+/* Tile pop when typing a letter */
+@keyframes pop{
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.15);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.tile.pop{
+  animation: pop 0.1s ease-in-out;
+  border-color: #565758;
+}
+
+/* Flip effect when submitting guess */
+@keyframes flip{
+  0%{
+    transform: rotateX(0deg);
+    background-color: #121213;
+    border: 2px solid #565758;
+  }
+  49.9%{
+    background-color: #121213;
+    border: 2px solid #565758;
+  }
+  50%{
+    transform: rotateX(90deg);
+    background-color: var(--target-bg, #121213);
+    border: var(--target-border, 2px solid #565758);
+  }
+  100%{
+    transform: rotateX(0deg);
+    background-color: var(--target-bg, #121213);
+    border: var(--target-border, 2px solid #565758);
+  }
+}
+
+.tile.flip{
+  animation: flip 0.6s ease-in-out both;
+}
+
+.tile.flip:nth-child(1) { animation-delay: 0.0s; }
+.tile.flip:nth-child(2) { animation-delay: 0.25s; }
+.tile.flip:nth-child(3) { animation-delay: 0.5s; }
+.tile.flip:nth-child(4) { animation-delay: 0.75s; }
+.tile.flip:nth-child(5) { animation-delay: 1.0s; }
