@@ -11,6 +11,19 @@ function Game() {
   const [currentGuess, setCurrentGuess] = useState("");
   const [leaderboard, setLeaderboard] = useState([]);
 
+  const [toastMessage, setToastMessage] = useState(null);
+
+  // ===============================
+  // HELPER FUNCTIONS
+  // ===============================
+
+  const showToast = (msg) => {
+    setToastMessage(msg);
+    setTimeout(() => {
+      setToastMessage(null);
+    }, 2000);
+  };
+
   // ===============================
   // SOCKET LISTENERS (runs once)
   // ===============================
@@ -56,7 +69,7 @@ function Game() {
     };
 
     const handleInvalidWord = () => {
-      alert("Not a valid word");
+      showToast("Not in word list");
     };
 
     socket.on("gameState", handleGameState);
@@ -90,8 +103,14 @@ function Game() {
   // UI
   // ===============================
   return (
-    <div>
+    <div style={{position: "relative"}}>
       <h1>Wordle Battle</h1>
+
+      {toastMessage && (
+        <div className="toast-container">
+          <div className="toast">{toastMessage}</div>
+        </div>
+      )}
 
       <p>Time left: {timer}</p>
 

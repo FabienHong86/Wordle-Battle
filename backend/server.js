@@ -105,7 +105,7 @@ function evaluateGuess(guess, solution) {
     const index = solutionArr.indexOf(guess[i]);
     if(index !== -1){// Letter in solution
       result[i] = "yellow";
-      solutionArr[i] = null;
+      solutionArr[index] = null;
     } else {// Letter not in solution
       result[i] = "gray";
     }
